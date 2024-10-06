@@ -40,16 +40,16 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
-@app.route('/name', methods=['GET', 'POST'])
-def name():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     name = None
     form = NameForm()
     if form.validate_on_submit():
         name = form.name.data
         form.name.data = ''
-        flash('Form Submited Successfully!')
+        flash('Successfully!')
 
-    return render_template('name.html',
+    return render_template('login.html',
                             name=name, 
                             form=form
                             )

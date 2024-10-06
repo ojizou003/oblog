@@ -11,8 +11,16 @@
     
 {% if name %}
     <h1>Hello {{ name }} !!</h1>
+    <br>
+    <center>
+    <img src="{{ url_for('static', filename='img/welcome.jpg') }}" alt="welcome" class="img-fluid">
+    <p id="demo">This is stuff...</p>
+    </center>
+
+    <script src="{{ url_for('static', filename='js/myfile.js') }}"></script>
+
 {% else %}
-    <h1>What's Your Name?</h1>
+    <h1>Please log in</h1>
     <br>
     <form method="POST">
         {{ form.hidden_tag() }}
