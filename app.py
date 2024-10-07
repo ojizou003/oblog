@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 from dotenv import load_dotenv
 import os
@@ -18,6 +19,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
+# Json Thing
+@app.route('/date')
+def get_current_date():
+    favorite_pizza = {
+        "John": 'Pepperoni', 
+        "Mary": 'Cheese',
+        "Tim": 'Mushroom'
+    }
+    return favorite_pizza
+    # return {"Date": date.today()}
 
 # Create Model
 class Users(db.Model):
