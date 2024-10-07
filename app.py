@@ -36,31 +36,6 @@ class UserForm(FlaskForm):
     favorite_color = StringField("Favorite Color")
     submit = SubmitField("Submit")
 
-# Update Database Record
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-    form = UserForm()
-    name_to_update = Users.query.get_or_404(id)
-    if request.method == 'POST':
-        name_to_update.name = request.form['name']
-        name_to_update.email = request.form['email']
-        name_to_update.favorite_color = request.form['favorite_color']
-        try:
-            db.session.commit()
-            flash('User Updated Successfully!')
-            return render_template('update.html', 
-                                    form=form,
-                                    name_to_update=name_to_update)
-        except:
-            flash('Error! Looks like there was a problem...try again!')
-            return render_template('update.html', 
-                                    form=form,
-                                    name_to_update=name_to_update)
-    else:
-        return render_template('update.html', 
-                                form=form,
-                                name_to_update=name_to_update)
-
 class NameForm(FlaskForm):
     name = StringField("Enter Your Name", validators=[DataRequired()])
     submit = SubmitField("Submit")
@@ -99,6 +74,47 @@ def add_user():
 def user(name):
     return render_template('user.html', user_name=name)
 
+# Update Database Record
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    form = UserForm()
+    name_to_update = Users.query.get_or_404(id)
+    if request.method == 'POST':
+        name_to_update.name = request.form['name']
+        name_to_update.email = request.form['email']
+        name_to_update.favorite_color = request.form['favorite_color']
+        try:
+            db.session.commit()
+            flash('User Updated Successfully!')
+            return render_template('update.html', 
+                                    form=form,
+                                    name_to_update=name_to_update)
+        except:
+            flash('Error! Looks like there was a problem...try again!')
+            return render_template('update.html', 
+                                    form=form,
+                                    name_to_update=name_to_update)
+    else:
+        return render_template('update.html', 
+                                form=form,
+                                name_to_update=name_to_update, 
+                                id=id)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    user_to_delete = Users.query.get_or_404(id)
+    name = None
+    form = UserForm()
+    try:
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        flash('User Deleted Successfuly!')
+        our_users = Users.query.order_by(Users.date_added)
+        return render_template('add_user.html', form=form, name=name, our_users=our_users)
+    except:
+        flash('Whoops! There was a problem deleting user, try again...')
+        return render_template('add_user.html', form=form, name=name, our_users=our_users)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -120,6 +136,7 @@ def name():
                             name=name, 
                             form=form
                             )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
