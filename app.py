@@ -7,6 +7,7 @@ from datetime import datetime, timezone, date
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 from dotenv import load_dotenv
 import os
@@ -19,6 +20,53 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Flask_Login Stuff
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
+# Create Login Form
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+# Create Login Page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Users.query.filter_by(username=form.username.data).first()
+        if user:
+            # Check the hash
+            if check_password_hash(user.password_hash, form.password.data):
+                login_user(user)
+                flash('Login Successfully!')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Wrong Password - Try Again!')
+        else:
+            flash("That User Dosen't Exist! Try Again...")
+    return render_template('login.html', form=form)
+
+# Create Logout Page
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    flash('You Have Been Logged Out! Thanks For Stopping By...')
+    return redirect(url_for('login'))
+
+# Create Dashboard Page
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
 
 # Create a Blog Post Model
 class Posts(db.Model):
@@ -103,7 +151,7 @@ def add_post():
         db.session.add(post)
         db.session.commit()
 
-        flash('Blog Post Submitted Successfuly!')
+        flash('Blog Post Submitted Successfully!')
     
     return render_template('add_post.html', form=form)
 
@@ -119,9 +167,10 @@ def get_current_date():
     # return {"Date": date.today()}
 
 # Create Model
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
@@ -147,6 +196,7 @@ class Users(db.Model):
 # Create Form Class
 class UserForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
+    username = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
     favorite_color = StringField("Favorite Color")
     password_hash = PasswordField("password", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
@@ -183,11 +233,16 @@ def add_user():
         if user is None:
             # Hash the password
             hashed_pw = generate_password_hash(form.password_hash.data)
-            user = Users(name=form.name.data, email=form.email.data, favorite_color=form.favorite_color.data, password_hash=hashed_pw)
+            user = Users(name=form.name.data, 
+                        username=form.username.data, 
+                        email=form.email.data, 
+                        favorite_color=form.favorite_color.data, password_hash=hashed_pw
+                        )
             db.session.add(user)
             db.session.commit()
         name = form.name.data
         form.name.data = ''
+        form.username.data = ''
         form.email.data = ''
         form.favorite_color.data = ''
         form.password_hash.data = ''
@@ -233,7 +288,7 @@ def delete(id):
     try:
         db.session.delete(user_to_delete)
         db.session.commit()
-        flash('User Deleted Successfuly!')
+        flash('User Deleted Successfully!')
         our_users = Users.query.order_by(Users.date_added)
         return render_template('add_user.html', form=form, name=name, our_users=our_users)
     except:
