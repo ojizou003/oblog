@@ -3,6 +3,10 @@ h1 {
     font-size: 40px;
 }
 
+h2 {
+    color: darkgreen;
+}
+
 body {
     background: #f4f4f4;
 }
