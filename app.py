@@ -295,6 +295,18 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('500.html'), 500
 
+# 日付フォーマット
+@app.template_filter('format_date')
+def format_date(value, format='%Y/%m/%d'):
+    if value is None:
+        return ""
+    return value.strftime(format)
+
+@app.template_filter('format_date_second')
+def format_date_second(value, format='%Y/%m/%d %H:%M:%S'):
+    if value is None:
+        return ""
+    return value.strftime(format)
 
 # Create a Blog Post Model
 class Posts(db.Model):
