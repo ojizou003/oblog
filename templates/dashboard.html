@@ -24,7 +24,37 @@
             <strong>Favorite Color : </strong>{{ current_user.favorite_color }} <br>
             <strong>Date Joined : </strong>{{ current_user.date_added }} <br>
         </p>
-        <a href="{{ url_for('logout') }}" class="btn btn-outline-success btn-sm">Logout</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+        <a href="{{ url_for('add_post') }}" class="btn btn-outline-success btn-sm">Create Post</a>
+        <a href="{{ url_for('posts', id=current_user.id) }}" class="btn btn-outline-primary btn-sm">All Posts</a>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        <strong>Update Profile</strong> <br>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+            <form action="/dashboard" method="POST">
+                {{ form.hidden_tag() }}
+        
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", value=name_to_update.name) }}
+                <br>
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control", value=name_to_update.username) }}
+                <br>
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", value=name_to_update.email) }}
+                <br>
+                {{ form.favorite_color.label(class="form-label") }}
+                {{ form.favorite_color(class="form-control", value=name_to_update.favorite_color) }}
+                <br>
+                {{ form.update(class="btn btn-success btn-sm") }}
+                <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </form>
+        </p>
     </div>
 </div>
 

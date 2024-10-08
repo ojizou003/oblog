@@ -10,7 +10,7 @@
 {% endfor%}
     
 {% if name %}
-    <h1>User Added!</h1>
+    <h2>User Added!</h2>
     <br><br><br>
 
 <table class="table table-hover table-bordered table-striped">
@@ -48,7 +48,7 @@
         {{ form.password_hash2.label(class="form-label") }}
         {{ form.password_hash2(class="form-control") }}
         <br>
-        {{ form.submit(class="btn btn-success") }}
+        {{ form.register(class="btn btn-success") }}
     </form>
     </div>
 

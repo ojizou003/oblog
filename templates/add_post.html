@@ -32,11 +32,11 @@
     </form>
     </div>
 {% else %}
-    <h2>Must Be Logged In...</h2>
+    <h1>Must Be Logged In...</h1>
     <br>
     <p>Sorry, You must be logged in to access this page!</p>
     <br>
-    <a href="{{ url_for('login') }}" class="btn btn-outline-success btn-sm">Login Here</a>
+    <a href="{{ url_for('login') }}" class="btn btn-success">Login Here</a>
 
 {% endif %}
 

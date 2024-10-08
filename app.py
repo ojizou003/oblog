@@ -32,9 +32,9 @@ def load_user(user_id):
 
 # Create Login Form
 class LoginForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    username = StringField("Username : ", validators=[DataRequired()])
+    password = PasswordField("Password : ", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 # Create Login Page
 @app.route('/login', methods=['GET', 'POST'])
@@ -66,7 +66,30 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    form = UserForm()
+    id = current_user.id
+    name_to_update = Users.query.get_or_404(id)
+    if request.method == 'POST':
+        name_to_update.name = request.form['name']
+        name_to_update.email = request.form['email']
+        name_to_update.favorite_color = request.form['favorite_color']
+        name_to_update.username = request.form['username']
+        try:
+            db.session.commit()
+            flash('User Updated Successfully!')
+            return render_template('dashboard.html', 
+                                    form=form,
+                                    name_to_update=name_to_update)
+        except:
+            flash('Error! Looks like there was a problem...try again!')
+            return render_template('dashboard.html', 
+                                    form=form,
+                                    name_to_update=name_to_update)
+    else:
+        return render_template('dashboard.html', 
+                                form=form,
+                                name_to_update=name_to_update, 
+                                id=id)
 
 # Create a Blog Post Model
 class Posts(db.Model):
@@ -87,6 +110,7 @@ class PostForm(FlaskForm):
     submit = SubmitField('Submit')
 
 @app.route('/posts/delete/<int:id>')
+@login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
 
@@ -197,13 +221,15 @@ class Users(db.Model, UserMixin):
     
 # Create Form Class
 class UserForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
-    username = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
-    favorite_color = StringField("Favorite Color")
-    password_hash = PasswordField("password", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
-    password_hash2 = PasswordField('Confirm Password', validators=[DataRequired()])
+    name = StringField("Name : ", validators=[DataRequired()])
+    username = StringField("Username : ", validators=[DataRequired()])
+    email = StringField("Email : ", validators=[DataRequired()])
+    favorite_color = StringField("Favorite Color : ")
+    password_hash = PasswordField("password : ", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
+    password_hash2 = PasswordField('Confirm Password : ', validators=[DataRequired()])
     submit = SubmitField("Submit")
+    update = SubmitField("Update")
+    register = SubmitField("Register")
 
 class PasswordForm(FlaskForm):
     email = StringField("What's Your Email", validators=[DataRequired()])
@@ -265,6 +291,7 @@ def update(id):
         name_to_update.name = request.form['name']
         name_to_update.email = request.form['email']
         name_to_update.favorite_color = request.form['favorite_color']
+        name_to_update.username = request.form['username']
         try:
             db.session.commit()
             flash('User Updated Successfully!')
