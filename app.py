@@ -41,7 +41,7 @@ def add_post():
         form.content.data = ''
         # form.author.data = ''
         form.slug.data = ''
-        
+
         # Add post data to database
         db.session.add(post)
         db.session.commit()
@@ -123,15 +123,20 @@ def delete(id):
 @login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
-
-    try:
-        db.session.delete(post_to_delete)
-        db.session.commit()
-        flash('Post was Deleted!')
-        posts = Posts.query.order_by(Posts.date_posted)
-        return render_template('posts.html', posts=posts)
-    except:
-        flash('There was a problem deleting post, Try again...')
+    id = current_user.id
+    if id == post_to_delete.poster.id:
+        try:
+            db.session.delete(post_to_delete)
+            db.session.commit()
+            flash('Post was Deleted!')
+            posts = Posts.query.order_by(Posts.date_posted)
+            return render_template('posts.html', posts=posts)
+        except:
+            flash('There was a problem deleting post, Try again...')
+            posts = Posts.query.order_by(Posts.date_posted)
+            return render_template('posts.html', posts=posts)
+    else:
+        flash("You Aren't Authorized To Delete that Post!")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template('posts.html', posts=posts)
 
