@@ -25,10 +25,11 @@
             {{ form.content.label(class="form-label") }}
             {{ form.content(class="form-control", rows="10") }}
             <br>
+            <a href="#" onclick="window.history.back(); return false;" class="btn btn-secondary"><< previous page</a>
             {{ form.submit(class="btn btn-success") }}
         </form>
-        {{ ckeditor.load() }}
-        {{ ckeditor.config(name='body') }}
+        {{ ckeditor.load(pkg_type="full-all") }}
+        {{ ckeditor.config(name='content') }}
     </div>
 {% else %}
     <h1>Must Be Logged In...</h1>

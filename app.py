@@ -22,6 +22,7 @@ app = Flask(__name__)
 
 # CKEditorのグローバル設定
 ckeditor = CKEditor(app)
+app.config['CKEDITOR_HEIGHT'] = 400
 # 警告を無効化
 app.config['CKEDITOR_ENABLE_CODESNIPPET'] = True
 app.config['CKEDITOR_CODE_THEME'] = 'monokai_sublime'

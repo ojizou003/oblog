@@ -8,7 +8,8 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endfor%}
-<h1>Edit Post</h1>
+<br>
+<h1>Edit Post...</h1>
 <br>
 <div class="shadow p-3 mb-5 bg-body rounded">
     <form method="POST">
@@ -23,10 +24,11 @@
         {{ form.content.label(class="form-label") }}
         {{ form.content(class="form-control", rows="10") }}
         <br>
+        <a href="#" onclick="window.history.back(); return false;" class="btn btn-secondary"><< previous page</a>
         {{ form.submit(class="btn btn-success") }}
     </form>
+    {{ ckeditor.load(pkg_type="full-all") }}
+    {{ ckeditor.config(name='content') }}
 </div>
-
-<a href="{{ url_for('posts') }}" class="btn btn-outline-secondary btn-sm"><< Back To Posts</a>
 
 {% endblock %}
