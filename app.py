@@ -8,7 +8,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 from dotenv import load_dotenv
 import os
 
-from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm
+from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
 
 load_dotenv()
 
@@ -242,6 +242,22 @@ def posts():
     posts = Posts.query.order_by(Posts.date_posted)
     return render_template('posts.html', posts=posts)
 
+@app.route('/search', methods=["POST"])
+def search():
+    form = SearchForm()
+    posts = Posts.query
+    if form.validate_on_submit():
+        # Get data from submitted form
+        post.searched = form.searched.data
+        # Query the Database
+        posts = posts.filter(Posts.content.like('%' + post.searched + '%'))
+        posts = posts.order_by(Posts.title).all()
+        return render_template('search.html', 
+                                form=form, 
+                                searched=post.searched,
+                                posts = posts
+                                )
+
 # テスト用
 @app.route('/test_pw', methods=['GET', 'POST'])
 def test_pw():
@@ -301,6 +317,13 @@ def update(id):
 def user(name):
     return render_template('user.html', user_name=name)
 
+# その他の関数
+# Pass Stuff To Navbar
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
+
 # Error Handling
 @app.errorhandler(404)
 def page_not_found(e):
@@ -323,6 +346,7 @@ def format_date_second(value, format='%Y/%m/%d %H:%M:%S'):
         return ""
     return value.strftime(format)
 
+# db.Model
 # Create a Blog Post Model
 class Posts(db.Model):
     __tablename__ = "posts"

@@ -8,11 +8,24 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password : ", validators=[DataRequired()])
     submit = SubmitField("Login")
 
+class NameForm(FlaskForm):
+    name = StringField("Enter Your Name", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+class PasswordForm(FlaskForm):
+    email = StringField("What's Your Email", validators=[DataRequired()])
+    password_hash = PasswordField("What's Your Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = StringField('Content', validators=[DataRequired()], widget=TextArea())
     slug = StringField('Slug', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class SearchForm(FlaskForm):
+    searched = StringField("Searchd : ", validators=[DataRequired()])
+    submit = SubmitField("Search")
 
 class UserForm(FlaskForm):
     name = StringField("Name : ", validators=[DataRequired()])
@@ -25,11 +38,4 @@ class UserForm(FlaskForm):
     update = SubmitField("Update")
     register = SubmitField("Register")
 
-class PasswordForm(FlaskForm):
-    email = StringField("What's Your Email", validators=[DataRequired()])
-    password_hash = PasswordField("What's Your Password", validators=[DataRequired()])
-    submit = SubmitField("Submit")
 
-class NameForm(FlaskForm):
-    name = StringField("Enter Your Name", validators=[DataRequired()])
-    submit = SubmitField("Submit")

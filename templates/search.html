@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <br>
+    <h2>You Searched For...</h2>
+    <h2>..."{{ searched }}" in Contents excluding Title</h2>
+    <br>
+    {% if posts == [] %}
+    <h3>Sorry, Not found...</h3>
+    {% else %}
+    {% for post in posts %}
+        ✅ <a href="{{ url_for('post', id=post.id) }}">{{ post.title }}</a><br>
+    {% endfor %}
+    {% endif %}
+{% endblock %}

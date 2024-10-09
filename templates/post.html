@@ -24,5 +24,7 @@
 
 <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
 {% endif %}
+<br><br>
+<a href="#" onclick="window.history.back(); return false;" class="btn btn-outline-secondary  btn-sm"><< previous page</a>
 
 {% endblock %}
