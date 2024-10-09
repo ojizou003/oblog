@@ -91,6 +91,38 @@ def add_user():
     our_users = Users.query.order_by(Users.date_added)
     return render_template('add_user.html', form=form, name=name, our_users=our_users)
 
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+    id = current_user.id
+    if id == 1:
+        name = None
+        form = UserForm()
+        if form.validate_on_submit():
+            user = Users.query.filter_by(email=form.email.data).first()
+            if user is None:
+                # Hash the password
+                hashed_pw = generate_password_hash(form.password_hash.data)
+                user = Users(name=form.name.data, 
+                            username=form.username.data, 
+                            email=form.email.data, 
+                            favorite_color=form.favorite_color.data, password_hash=hashed_pw
+                            )
+                db.session.add(user)
+                db.session.commit()
+            name = form.name.data
+            form.name.data = ''
+            form.username.data = ''
+            form.email.data = ''
+            form.favorite_color.data = ''
+            form.password_hash.data = ''
+            flash('User Added Successfully!')
+        our_users = Users.query.order_by(Users.date_added)
+        return render_template('admin.html', form=form, name=name, our_users=our_users)
+    else:
+        flash('Sorrt, You must be the Admin to access the Admin Page...')
+        return redirect(url_for('dashboard'))
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
