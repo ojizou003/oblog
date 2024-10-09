@@ -136,7 +136,7 @@ def delete_post(id):
             posts = Posts.query.order_by(Posts.date_posted)
             return render_template('posts.html', posts=posts)
     else:
-        flash("You Aren't Authorized To Delete that Post!")
+        flash("You Aren't Authorized To Delete this Post!")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template('posts.html', posts=posts)
 
@@ -155,11 +155,18 @@ def edit_post(id):
         db.session.commit()
         flash('Post Has Been Updated!')
         return redirect(url_for('post', id=post.id))
-    form.title.data = post.title
-    # form.author.data = post.author
-    form.slug.data = post.slug
-    form.content.data = post.content
-    return render_template('edit_post.html', form=form)
+    
+    if current_user.id == post.poster_id:
+        form.title.data = post.title
+        # form.author.data = post.author
+        form.slug.data = post.slug
+        form.content.data = post.content
+        return render_template('edit_post.html', form=form)
+    else:
+        flash("You Arn't Authorized To Edit This Post!")
+        post = Posts.query.get_or_404(id)
+        return render_template('post.html', post=post)
+
 
 # Json Thing
 @app.route('/date')
