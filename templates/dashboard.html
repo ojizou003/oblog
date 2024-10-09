@@ -24,6 +24,7 @@
                         <strong>User Id : </strong>{{ current_user.id }} <br>
                         <strong>Email : </strong>{{ current_user.email }} <br>
                         <strong>Favorite Color : </strong>{{ current_user.favorite_color }} <br>
+                        <strong>About Author : </strong>{{ current_user.about_author }} <br>
                         <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
                     </div>
                     <div class="col-4">
@@ -61,6 +62,9 @@
                 {{ form.favorite_color.label(class="form-label") }}
                 {{ form.favorite_color(class="form-control", value=name_to_update.favorite_color) }}
                 <br>
+                {{ form.about_author.label(class="form-label") }}
+                <textarea name="about_author" class="form-control">{{ name_to_update.about_author }}</textarea>
+                <br><br>
                 {{ form.update(class="btn btn-success btn-sm") }}
                 <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger btn-sm">Delete</a>
             </form>
