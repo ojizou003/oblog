@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField, FileField
 from wtforms.validators import DataRequired, EqualTo, Length
 from wtforms.widgets import TextArea
 from flask_ckeditor import CKEditorField
+
 
 class LoginForm(FlaskForm):
     username = StringField("Username : ", validators=[DataRequired()])
@@ -38,6 +39,7 @@ class UserForm(FlaskForm):
     about_author = TextAreaField("About Author : ")
     password_hash = PasswordField("password : ", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
     password_hash2 = PasswordField('Confirm Password : ', validators=[DataRequired()])
+    profile_pic = FileField("Profile pic : ")
     submit = SubmitField("Submit")
     update = SubmitField("Update")
     register = SubmitField("Register")

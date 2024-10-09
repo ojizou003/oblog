@@ -11,6 +11,8 @@ import pytz
 
 from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
 from flask_ckeditor import CKEditor
+from werkzeug.utils import secure_filename
+import uuid as uuid
 
 load_dotenv()
 
@@ -31,6 +33,10 @@ app.config['CKEDITOR_DISABLE_SECURITY_WARNING'] = True
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+UPLOAD_FOLDER = 'static/img/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -135,8 +141,19 @@ def dashboard():
         name_to_update.favorite_color = request.form['favorite_color']
         name_to_update.username = request.form['username']
         name_to_update.about_author = request.form['about_author']
+        name_to_update.profile_pic = request.files['profile_pic']
+
+        # Grab Image Name
+        pic_filename = secure_filename(name_to_update.profile_pic.filename)
+        # Set UUID
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        # Save That Image
+        saver = request.files['profile_pic']
+        # Change it to a string to save to db
+        name_to_update.profile_pic = pic_name
         try:
             db.session.commit()
+            saver.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
             flash('User Updated Successfully!')
             return render_template('dashboard.html', 
                                     form=form,
@@ -418,6 +435,7 @@ class Users(db.Model, UserMixin):
     about_author = db.Column(db.Text(500), nullable=True)
     # date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     date_added = db.Column(db.DateTime(timezone=True), default=lambda:datetime.now(japan_tz))
+    profile_pic = db.Column(db.String(), nullable=True)
 
     # Do some password stuff!
     password_hash = db.Column(db.String(128))
