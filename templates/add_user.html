@@ -10,10 +10,13 @@
 {% endfor%}
     
 {% if name %}
-    <h2>User Added!</h2>
+    <h2>Registration complete!</h2>
+    <br>
+    <p>Please Login...<p>
+    <a href="{{ url_for('login') }}", class="btn btn-success">Login</a>
     <br><br><br>
 
-<table class="table table-hover table-bordered table-striped">
+<!-- <table class="table table-hover table-bordered table-striped">
 {% for our_user in our_users %}
     <tr>
     <td>
@@ -21,7 +24,7 @@
     </td>
     </tr>
 {% endfor %}
-</table>
+</table> -->
 
 {% else %}
     <h1>Register</h1>
@@ -52,8 +55,8 @@
     </form>
     </div>
 
-<br><br><br>
-<table class="table table-hover table-bordered table-striped">
+<br>
+<!-- <table class="table table-hover table-bordered table-striped">
 {% for our_user in our_users %}
     <tr>
     <td>
@@ -61,7 +64,7 @@
     </td>
     </tr>
 {% endfor %}
-</table>
+</table> -->
 
 
 {% endif %}

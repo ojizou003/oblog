@@ -12,8 +12,8 @@
 <br>
 {% for post in posts %}
     <div class="shadow p-3 mb-5 bg-body rounded">
-        <h2><a href="{{ url_for('post', id=post.id) }}" class="link-success link-underline-opacity-0">View Post{{ post.title }}</h2></a>
-        <small>By: {{ post.author }}</small><br>
+        <h2><a href="{{ url_for('post', id=post.id) }}" class="link-success link-underline-opacity-0">{{ post.title }}</h2></a>
+        <small>By: {{ post.poster.username }}</small><br>
         {{ post.date_posted|format_date_second }} <br><br>
         {{ post.content }} <br><br>
         <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">View Post</a>

@@ -31,15 +31,17 @@ def add_post():
     form = PostForm()
 
     if form.validate_on_submit():
+        poster = current_user.id
         post = Posts(title=form.title.data, 
                     content=form.content.data,
-                    author=form.author.data, 
+                    poster_id=poster, 
                     slug=form.slug.data
                 )
         form.title.data = ''
         form.content.data = ''
-        form.author.data = ''
+        # form.author.data = ''
         form.slug.data = ''
+        
         # Add post data to database
         db.session.add(post)
         db.session.commit()
@@ -140,7 +142,7 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.author = form.author.data
+        # post.author = form.author.data
         post.slug = form.slug.data
         post.content = form.content.data
         # Update Database
@@ -149,7 +151,7 @@ def edit_post(id):
         flash('Post Has Been Updated!')
         return redirect(url_for('post', id=post.id))
     form.title.data = post.title
-    form.author.data = post.author
+    # form.author.data = post.author
     form.slug.data = post.slug
     form.content.data = post.content
     return render_template('edit_post.html', form=form)
@@ -315,9 +317,11 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
-    author = db.Column(db.String(255))
+    # author = db.Column(db.String(255)) ...poster_idの導入により不要
     date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     slug = db.Column(db.String(255))
+    # Foreign Key To Link Users (refer to primary key of the user)
+    poster_id = db.Column(db.Integer, db.ForeignKey('users.id')) #usersはDBのTable名
 
 class Users(db.Model, UserMixin):
     __tablename__ = "users"
@@ -329,6 +333,8 @@ class Users(db.Model, UserMixin):
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     # Do some password stuff!
     password_hash = db.Column(db.String(128))
+    # User Can Have Many Posts
+    posts = db.relationship(Posts, backref='poster')
 
     @property
     def password(self):
