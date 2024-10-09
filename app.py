@@ -7,11 +7,15 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 
 from dotenv import load_dotenv
 import os
+import pytz
 
 from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
 from flask_ckeditor import CKEditor
 
 load_dotenv()
+
+# 日本のタイムゾーンを定義
+japan_tz = pytz.timezone('Asia/Tokyo')
 
 # Create a Flask Instance
 app = Flask(__name__)
@@ -364,7 +368,8 @@ class Posts(db.Model):
     title = db.Column(db.String(255))
     content = db.Column(db.Text)
     # author = db.Column(db.String(255)) ...poster_idの導入により不要
-    date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    # date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    date_posted = db.Column(db.DateTime(timezone=True), default=lambda:datetime.now(japan_tz))
     slug = db.Column(db.String(255))
     # Foreign Key To Link Users (refer to primary key of the user)
     poster_id = db.Column(db.Integer, db.ForeignKey('users.id')) #usersはDBのTable名
@@ -376,7 +381,9 @@ class Users(db.Model, UserMixin):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
-    date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    # date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    date_added = db.Column(db.DateTime(timezone=True), default=lambda:datetime.now(japan_tz))
+
     # Do some password stuff!
     password_hash = db.Column(db.String(128))
     # User Can Have Many Posts
