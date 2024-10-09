@@ -9,11 +9,21 @@ from dotenv import load_dotenv
 import os
 
 from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
+from flask_ckeditor import CKEditor
 
 load_dotenv()
 
 # Create a Flask Instance
 app = Flask(__name__)
+
+# CKEditorのグローバル設定
+ckeditor = CKEditor(app)
+# 警告を無効化
+app.config['CKEDITOR_ENABLE_CODESNIPPET'] = True
+app.config['CKEDITOR_CODE_THEME'] = 'monokai_sublime'
+app.config['CKEDITOR_EXTRA_PLUGINS'] = ['codesnippet']
+app.config['CKEDITOR_DISABLE_SECURITY_WARNING'] = True
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)

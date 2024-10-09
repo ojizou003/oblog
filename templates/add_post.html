@@ -13,20 +13,22 @@
 <h1>New Post</h1>
     <br>
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
-    <form method="POST">
-        {{ form.hidden_tag() }}
+        <form method="POST">
+            {{ form.hidden_tag() }}
 
-        {{ form.title.label(class="form-label") }}
-        {{ form.title(class="form-control") }}
-        <br>
-        {{ form.slug.label(class="form-label") }}
-        {{ form.slug(class="form-control") }}
-        <br>
-        {{ form.content.label(class="form-label") }}
-        {{ form.content(class="form-control", rows="10") }}
-        <br>
-        {{ form.submit(class="btn btn-success") }}
-    </form>
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+            <br>
+            {{ form.slug.label(class="form-label") }}
+            {{ form.slug(class="form-control") }}
+            <br>
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows="10") }}
+            <br>
+            {{ form.submit(class="btn btn-success") }}
+        </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
     </div>
 {% else %}
     <h1>Must Be Logged In...</h1>
