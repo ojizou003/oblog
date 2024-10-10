@@ -31,7 +31,8 @@ app.config['CKEDITOR_CODE_THEME'] = 'monokai_sublime'
 app.config['CKEDITOR_EXTRA_PLUGINS'] = ['codesnippet']
 app.config['CKEDITOR_DISABLE_SECURITY_WARNING'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password123@localhost/oblog"
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 UPLOAD_FOLDER = 'static/img/'
@@ -432,13 +433,13 @@ class Users(db.Model, UserMixin):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
-    about_author = db.Column(db.Text(500), nullable=True)
+    about_author = db.Column(db.Text, nullable=True)
     # date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     date_added = db.Column(db.DateTime(timezone=True), default=lambda:datetime.now(japan_tz))
-    profile_pic = db.Column(db.String(), nullable=True)
+    profile_pic = db.Column(db.String(255), nullable=True)
 
     # Do some password stuff!
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(255))
     # User Can Have Many Posts
     posts = db.relationship(Posts, backref='poster')
 
@@ -456,6 +457,8 @@ class Users(db.Model, UserMixin):
     # Create A String
     def __repr__(self):
         return '<Name %r>' % self.name
+
+print(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 if __name__ == '__main__':
     app.run(debug=True)
