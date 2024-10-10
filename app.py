@@ -92,7 +92,7 @@ def add_user():
 @login_required
 def admin():
     id = current_user.id
-    if id == 1:
+    if id == 3:
         name = None
         form = UserForm()
         if form.validate_on_submit():
