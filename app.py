@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
-from dotenv import load_dotenv
 import os
 import pytz
 
@@ -15,7 +14,6 @@ from werkzeug.utils import secure_filename
 import uuid as uuid
 from config import Config
 
-load_dotenv()
 
 # 日本のタイムゾーンを定義
 japan_tz = pytz.timezone('Asia/Tokyo')
@@ -23,11 +21,15 @@ japan_tz = pytz.timezone('Asia/Tokyo')
 # Create a Flask Instance
 app = Flask(__name__)
 app.config.from_object(Config)
-
-ckeditor = CKEditor(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_database_url()
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.debug = Config.DEBUG
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+ckeditor = CKEditor(app)
 
 # Flask_Login Stuff
 login_manager = LoginManager()
