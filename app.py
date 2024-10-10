@@ -456,6 +456,8 @@ class Users(db.Model, UserMixin):
     # Create A String
     def __repr__(self):
         return '<Name %r>' % self.name
+    
+# print(os.getenv('SQLALCHEMY_DATABASE_URI'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
