@@ -45,7 +45,7 @@ PyMySQL==1.1.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.2
-pywin32==307
+# pywin32==307
 pyzmq==26.2.0
 six==1.16.0
 SQLAlchemy==2.0.35
