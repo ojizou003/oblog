@@ -30,7 +30,11 @@
                     </div>
                     <div class="col-4">
                         <br>
+                        {% if current_user.profile_pic %}
+                        <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="88" align="right">
+                        {% else %}
                         <img src="{{ url_for('static', filename='img/default_profile_pic.png') }}" alt="default_profile_pic" width="88" align="right">
+                        {% endif %}
                     </div>
                 </div>
             </div>
