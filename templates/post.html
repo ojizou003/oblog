@@ -21,8 +21,8 @@
 <div class="card mb-2">
     <div class="row no-gutters">
         <div class="col-md-2">
-            {% if post.poster.profile_pic %}
-                <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="left">
+            {% if post.poster and post.poster.profile_pic %}
+                <img src="{{ url_for('static', filename='img/' + post.poster.profile_pic) }}" alt="poster_profile_pic" width="120" align="left">
             {% else %}
                 <img src="{{ url_for('static', filename='img/default_profile_pic.png') }}" alt="default_profile_pic" width="120" align="left">
             {% endif %}

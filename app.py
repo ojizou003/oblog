@@ -47,7 +47,7 @@ app.config['CKEDITOR_CONFIG'] = {
     'image2_maxSize': {'width': 100, 'height': 100},
     'contentsCss': ['static/css/style.css']
 }
-
+    
 # Flask_Login Stuff
 login_manager = LoginManager()
 login_manager.init_app(app)
