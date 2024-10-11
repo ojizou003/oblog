@@ -11,6 +11,7 @@ from flask_login import (
     logout_user,
     current_user,
 )
+from sqlalchemy.exc import IntegrityError
 
 import os
 import pytz
@@ -118,7 +119,7 @@ def add_user():
             form.email.data = ""
             form.favorite_color.data = ""
             form.password_hash.data = ""
-            flash("ユーザー登録完了!")
+            flash("ユーザー情報が正常に登録されました!")
 
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
@@ -355,21 +356,39 @@ def update(id):
     form = UserForm()
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":
+        # Check if username or email already exists (excluding the current user)
+        existing_user = Users.query.filter(
+            (Users.username == request.form["username"]) | 
+            (Users.email == request.form["email"])
+        ).filter(Users.id != id).first()
+
+        if existing_user:
+            if existing_user.username == request.form["username"]:
+                flash("このユーザー名は既に使用されています。別のユーザー名で登録してください。")
+            else:
+                flash("このメールアドレスは既に登録されています。")
+            return render_template(
+                "update.html", form=form, name_to_update=name_to_update
+            )
+
         name_to_update.name = request.form["name"]
         name_to_update.email = request.form["email"]
         name_to_update.favorite_color = request.form["favorite_color"]
         name_to_update.username = request.form["username"]
+
         try:
             db.session.commit()
-            flash("User Updated Successfully!")
-            return render_template(
-                "update.html", form=form, name_to_update=name_to_update
-            )
-        except:
-            flash("Error! Looks like there was a problem...try again!")
-            return render_template(
-                "update.html", form=form, name_to_update=name_to_update
-            )
+            flash("ユーザー情報が正常に更新されました!")
+        except IntegrityError:
+            db.session.rollback()
+            flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"エラー! 問題が発生しました: {str(e)}")
+
+        return render_template(
+            "update.html", form=form, name_to_update=name_to_update
+        )
     else:
         return render_template(
             "update.html", form=form, name_to_update=name_to_update, id=id
