@@ -12,51 +12,38 @@ from flask_ckeditor import CKEditorField
 
 
 class LoginForm(FlaskForm):
-    username = StringField("Username : ", validators=[DataRequired()])
-    password = PasswordField("Password : ", validators=[DataRequired()])
-    submit = SubmitField("Login")
-
-
-class NameForm(FlaskForm):
-    name = StringField("Enter Your Name", validators=[DataRequired()])
-    submit = SubmitField("Submit")
-
-
-class PasswordForm(FlaskForm):
-    email = StringField("What's Your Email", validators=[DataRequired()])
-    password_hash = PasswordField("What's Your Password", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    username = StringField("ユーザー名 : ", validators=[DataRequired()])
+    password = PasswordField("パスワード : ", validators=[DataRequired()])
+    submit = SubmitField("ログイン")
 
 
 class PostForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    # content = StringField('Content', validators=[DataRequired()], widget=TextArea())
-    content = CKEditorField("Content", validators=[DataRequired()])
-    # author = StringField("Author")
-    keyword = StringField("keyword", validators=[DataRequired()])
-    submit = SubmitField("Submit")
+    title = StringField("タイトル", validators=[DataRequired()])
+    keyword = StringField("キーワード", validators=[DataRequired()])
+    content = CKEditorField("内容", validators=[DataRequired()])
+    submit = SubmitField("投稿")
 
 
 class SearchForm(FlaskForm):
-    searched = StringField("Searchd : ", validators=[DataRequired()])
-    submit = SubmitField("Search")
+    searched = StringField("検索 : ", validators=[DataRequired()])
+    submit = SubmitField("検索")
 
 
 class UserForm(FlaskForm):
-    name = StringField("Name : ", validators=[DataRequired()])
-    username = StringField("Username : ", validators=[DataRequired()])
-    email = StringField("Email : ", validators=[DataRequired()])
-    favorite_color = StringField("Favorite Color : ")
-    about_author = TextAreaField("About Author : ")
+    name = StringField("お名前 : ", validators=[DataRequired()])
+    username = StringField("ユーザー名 : ", validators=[DataRequired()])
+    email = StringField("Ｅメール : ", validators=[DataRequired()])
+    favorite_color = StringField("好きな色 : ")
+    about_author = TextAreaField("著者から一言 : ")
     password_hash = PasswordField(
-        "password : ",
+        "パスワード : ",
         validators=[
             DataRequired(),
-            EqualTo("password_hash2", message="Passwords Must Match!"),
+            EqualTo("password_hash2", message="パスワードが一致しません!"),
         ],
     )
-    password_hash2 = PasswordField("Confirm Password : ", validators=[DataRequired()])
-    profile_pic = FileField("Profile pic : ")
-    submit = SubmitField("Submit")
-    update = SubmitField("Update")
-    register = SubmitField("Register")
+    password_hash2 = PasswordField("パスワード(確認用) : ", validators=[DataRequired()])
+    profile_pic = FileField("プロフ画像 : ")
+    submit = SubmitField("送信")
+    update = SubmitField("更新")
+    register = SubmitField("登録")

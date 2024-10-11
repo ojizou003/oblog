@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{url_for('index')}}">
+        <a class="navbar-brand" href="{{url_for('login')}}">
             <img src="{{ url_for('static', filename='img/O透過ロゴ.png') }}" alt="Bootstrap" width="28" height="28">
             Oblog
         </a>
@@ -10,35 +10,29 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('user', name='Ojizou')}}">User Profile</a>
+                    <a class="nav-link" href="{{url_for('add_post') }}">記事作成</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('name')}}">Name</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('add_post') }}">Create Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('posts') }}">All Posts</a>
+                    <a class="nav-link" href="{{url_for('posts') }}">記事一覧</a>
                 </li>
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{url_for('dashboard') }}">ダッシュボード</a>
                     </li>
                     {% if current_user.id == 3 %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('admin') }}">Admin</a>
+                        <a class="nav-link" href="{{url_for('admin') }}">管理者画面</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('logout') }}">Logout</a>
+                        <a class="nav-link" href="{{url_for('logout') }}">ログアウト</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('login') }}">Login</a>
+                        <a class="nav-link" href="{{url_for('login') }}">ログイン</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('add_user') }}">Register</a>
+                        <a class="nav-link" href="{{url_for('add_user') }}">ユーザー登録</a>
                     </li>
                 {% endif %}
             </ul>

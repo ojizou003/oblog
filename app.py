@@ -16,7 +16,7 @@ import os
 import pytz
 import re
 
-from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
+from webforms import LoginForm, UserForm, PostForm, SearchForm
 from flask_ckeditor import CKEditor
 from werkzeug.utils import secure_filename
 import uuid as uuid
@@ -269,29 +269,13 @@ def edit_post(id):
         post = Posts.query.get_or_404(id)
         return render_template("post.html", post=post)
 
-
-# Json Thing
-@app.route("/date")
-def get_current_date():
-    favorite_pizza = {"John": "Pepperoni", "Mary": "Cheese", "Tim": "Mushroom"}
-    return favorite_pizza
-    # return {"Date": date.today()}
-
-
 @app.route("/")
 def index():
-    first_name = "Jhon"
-    stuff = "This is bold Text"
-    favorite_pizza = ["Pepperoni", "Cheese", "Mushrooms", 41]
-    return render_template(
-        "index.html", first_name=first_name, stuff=stuff, favorite_pizza=favorite_pizza
-    )
-
+    return redirect(url_for("login"))
 
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -317,19 +301,6 @@ def logout():
     logout_user()
     flash("You Have Been Logged Out! Thanks For Stopping By...")
     return redirect(url_for("login"))
-
-
-@app.route("/name", methods=["GET", "POST"])
-def name():
-    name = None
-    form = NameForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ""
-        flash("Successfully!")
-
-    return render_template("name.html", name=name, form=form)
-
 
 @app.route("/posts/<int:id>")
 def post(id):
@@ -369,37 +340,6 @@ def search():
             "search.html", form=form, searched=post.searched, posts=posts
         )
 
-
-# テスト用
-@app.route("/test_pw", methods=["GET", "POST"])
-def test_pw():
-    email = None
-    password = None
-    pw_to_check = None
-    passed = None
-    form = PasswordForm()
-
-    # Validate Form
-    if form.validate_on_submit():
-        email = form.email.data
-        password = form.password_hash.data
-        form.email.data = ""
-        form.password_hash.data = ""
-        pw_to_check = Users.query.filter_by(email=email).first()
-
-        # Check Hashed Password
-        passed = check_password_hash(pw_to_check.password_hash, password)
-
-    return render_template(
-        "test_pw.html",
-        email=email,
-        password=password,
-        pw_to_check=pw_to_check,
-        passed=passed,
-        form=form,
-    )
-
-
 @app.route("/update/<int:id>", methods=["GET", "POST"])
 @login_required
 def update(id):
@@ -425,11 +365,6 @@ def update(id):
         return render_template(
             "update.html", form=form, name_to_update=name_to_update, id=id
         )
-
-
-@app.route("/user/<name>")
-def user(name):
-    return render_template("user.html", user_name=name)
 
 
 # その他の関数
