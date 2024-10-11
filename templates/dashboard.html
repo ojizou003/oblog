@@ -19,21 +19,21 @@
         <p class="card-text">
             <div class="container">
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-md-8">
                         <strong>Username : </strong>{{ current_user.username }} <br>
                         <strong>User Id : </strong>{{ current_user.id }} <br>
                         <strong>Email : </strong>{{ current_user.email }} <br>
                         <strong>Favorite Color : </strong>{{ current_user.favorite_color }} <br>
                         <strong>About Author : </strong>{{ current_user.about_author }} <br>
-                        <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br>
+                        <!-- <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br> -->
                         <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
                     </div>
-                    <div class="col-4">
-                        <br>
+                    <div class="col-mde-4">
+                        <strong align="center">Profile Pic</strong>
                         {% if current_user.profile_pic %}
-                        <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="88" align="right">
+                        <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="center">
                         {% else %}
-                        <img src="{{ url_for('static', filename='img/default_profile_pic.png') }}" alt="default_profile_pic" width="88" align="right">
+                        <img src="{{ url_for('static', filename='img/default_profile_pic.png') }}" alt="default_profile_pic" width="120" align="center">
                         {% endif %}
                     </div>
                 </div>
