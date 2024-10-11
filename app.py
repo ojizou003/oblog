@@ -187,7 +187,7 @@ def dashboard():
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 @login_required
 def delete(id):
-    if id == current_user.id:
+    if id == current_user.id or current_user.id == 3:
         user_to_delete = Users.query.get_or_404(id)
         name = None
         form = UserForm()
@@ -214,7 +214,7 @@ def delete(id):
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
     id = current_user.id
-    if id == post_to_delete.poster.id:
+    if id == post_to_delete.poster.id or id == 3:
         try:
             db.session.delete(post_to_delete)
             db.session.commit()
@@ -247,7 +247,7 @@ def edit_post(id):
         flash("Post Has Been Updated!")
         return redirect(url_for("post", id=post.id))
 
-    if current_user.id == post.poster_id:
+    if current_user.id == post.poster_id or current_user.id == 3:
         form.title.data = post.title
         # form.author.data = post.author
         form.slug.data = post.slug
