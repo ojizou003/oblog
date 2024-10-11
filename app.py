@@ -47,7 +47,7 @@ app.config['CKEDITOR_CONFIG'] = {
     'image2_maxSize': {'width': 100, 'height': 100},
     'contentsCss': ['static/css/style.css']
 }
-    
+
 # Flask_Login Stuff
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -486,14 +486,12 @@ class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    # author = db.Column(db.String(255)) ...poster_idの導入により不要
-    # date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     date_posted = db.Column(
         db.DateTime(timezone=True), default=lambda: datetime.now(japan_tz)
     )
     keyword = db.Column(db.String(255))
     # Foreign Key To Link Users (refer to primary key of the user)
-    poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))  # usersはDBのTable名
+    poster_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)  # usersはDBのTable名
 
 
 class Users(db.Model, UserMixin):
@@ -504,7 +502,6 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
     about_author = db.Column(db.Text(500), nullable=True)
-    # date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     date_added = db.Column(
         db.DateTime(timezone=True), default=lambda: datetime.now(japan_tz)
     )
@@ -513,7 +510,7 @@ class Users(db.Model, UserMixin):
     # Do some password stuff!
     password_hash = db.Column(db.String(255))
     # User Can Have Many Posts
-    posts = db.relationship(Posts, backref="poster")
+    posts = db.relationship(Posts, backref="poster", lazy=True, cascade="all, delete-orphan")
 
     @property
     def password(self):
