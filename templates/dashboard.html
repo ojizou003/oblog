@@ -24,12 +24,13 @@
                         <strong>User Id : </strong>{{ current_user.id }} <br>
                         <strong>Email : </strong>{{ current_user.email }} <br>
                         <strong>Favorite Color : </strong>{{ current_user.favorite_color }} <br>
+                        <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
                         <strong>About Author : </strong>{{ current_user.about_author }} <br>
                         <!-- <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br> -->
-                        <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
                     </div>
+                    <br>
                     <div class="col-md-4">
-                        <strong align="center">Profile Pic</strong>
+                        <strong>Profile Pic : </strong>
                         {% if current_user.profile_pic %}
                         <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="center">
                         {% else %}
