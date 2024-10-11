@@ -129,36 +129,52 @@ def add_user():
 @login_required
 def admin():
     id = current_user.id
-    if id == 3:
+    if id == 3:  # Assuming 3 is the admin user ID
         name = None
         form = UserForm()
         if form.validate_on_submit():
-            user = Users.query.filter_by(email=form.email.data).first()
-            if user is None:
-                # Hash the password
-                hashed_pw = generate_password_hash(form.password_hash.data)
-                user = Users(
-                    name=form.name.data,
-                    username=form.username.data,
-                    email=form.email.data,
-                    favorite_color=form.favorite_color.data,
-                    password_hash=hashed_pw,
-                )
-                db.session.add(user)
-                db.session.commit()
-            name = form.name.data
-            form.name.data = ""
-            form.username.data = ""
-            form.email.data = ""
-            form.favorite_color.data = ""
-            form.password_hash.data = ""
-            flash("ユーザー登録完了!")
+            existing_user = Users.query.filter(
+                (Users.email == form.email.data) | (Users.username == form.username.data)
+            ).first()
+            
+            if existing_user:
+                if existing_user.email == form.email.data:
+                    flash("このメールアドレスは既に登録されています。")
+                else:
+                    flash("このユーザー名は既に使用されています。別のユーザー名で登録してください。")
+            else:
+                try:
+                    # Hash the password
+                    hashed_pw = generate_password_hash(form.password_hash.data)
+                    user = Users(
+                        name=form.name.data,
+                        username=form.username.data,
+                        email=form.email.data,
+                        favorite_color=form.favorite_color.data,
+                        password_hash=hashed_pw,
+                    )
+                    db.session.add(user)
+                    db.session.commit()
+                    
+                    name = form.name.data
+                    form.name.data = ""
+                    form.username.data = ""
+                    form.email.data = ""
+                    form.favorite_color.data = ""
+                    form.password_hash.data = ""
+                    flash("ユーザー情報が正常に登録されました!")
+                except IntegrityError:
+                    db.session.rollback()
+                    flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f"エラー! 問題が発生しました: {str(e)}")
+
         our_users = Users.query.order_by(Users.date_added)
         return render_template("admin.html", form=form, name=name, our_users=our_users)
     else:
         flash("申し訳ありません。 管理者用の画面なので表示できません...")
         return redirect(url_for("dashboard"))
-
 
 @app.route("/dashboard", methods=["GET", "POST"])
 @login_required
@@ -167,6 +183,21 @@ def dashboard():
     id = current_user.id
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":
+        # Check if username or email already exists (excluding the current user)
+        existing_user = Users.query.filter(
+            (Users.username == request.form["username"]) | 
+            (Users.email == request.form["email"])
+        ).filter(Users.id != id).first()
+
+        if existing_user:
+            if existing_user.username == request.form["username"]:
+                flash("このユーザー名は既に使用されています。別のユーザー名で登録してください。")
+            else:
+                flash("このメールアドレスは既に登録されています。")
+            return render_template(
+                "dashboard.html", form=form, name_to_update=name_to_update
+            )
+
         name_to_update.name = request.form["name"]
         name_to_update.email = request.form["email"]
         name_to_update.favorite_color = request.form["favorite_color"]
@@ -184,29 +215,26 @@ def dashboard():
             saver = request.files["profile_pic"]
             # Change it to a string to save to db
             name_to_update.profile_pic = pic_name
-            try:
-                db.session.commit()
-                saver.save(os.path.join(app.config["UPLOAD_FOLDER"], pic_name))
-                flash("登録完了!")
-                return render_template(
-                    "dashboard.html", form=form, name_to_update=name_to_update
-                )
-            except:
-                flash("エラー! 問題が発生しました...")
-                return render_template(
-                    "dashboard.html", form=form, name_to_update=name_to_update
-                )
-        else:
+
+        try:
             db.session.commit()
-            flash("登録完了!")
-            return render_template(
-                "dashboard.html", form=form, name_to_update=name_to_update
-            )
+            if request.files["profile_pic"]:
+                saver.save(os.path.join(app.config["UPLOAD_FOLDER"], pic_name))
+            flash("ユーザー情報が正常に登録されました!")
+        except IntegrityError:
+            db.session.rollback()
+            flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+        except Exception as e:
+            db.session.rollback()
+            flash(f"エラー! 問題が発生しました: {str(e)}")
+
+        return render_template(
+            "dashboard.html", form=form, name_to_update=name_to_update
+        )
     else:
         return render_template(
             "dashboard.html", form=form, name_to_update=name_to_update, id=id
         )
-
 
 @app.route("/delete/<int:id>", methods=["GET", "POST"])
 @login_required
@@ -231,7 +259,6 @@ def delete(id):
     else:
         flash("Sorry, you can't delete that user!")
         return redirect(url_for("dashboard"))
-
 
 @app.route("/posts/delete/<int:id>")
 @login_required
