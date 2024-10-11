@@ -340,7 +340,15 @@ def search():
         # Get data from submitted form
         post.searched = form.searched.data
         # Query the Database
-        posts = posts.filter(Posts.content.like("%" + post.searched + "%"))
+        # posts = posts.filter(Posts.content.like("%" + post.searched + "%"))
+        posts = posts.filter(
+            db.or_(
+                Posts.content.like("%" + post.searched + "%"),
+                Posts.title.like("%" + post.searched + "%"),
+                Posts.slug.like("%" + post.searched + "%"),
+                Posts.poster_id.in_(Users.query.filter(Users.username.like("%" + post.searched + "%"))).with_entities(Users.id)
+            )
+        )
         posts = posts.order_by(Posts.title).all()
         return render_template(
             "search.html", form=form, searched=post.searched, posts=posts
