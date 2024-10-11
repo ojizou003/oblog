@@ -20,7 +20,7 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField("タイトル", validators=[DataRequired()])
     keyword = StringField("キーワード", validators=[DataRequired()])
-    content = CKEditorField("内容", validators=[DataRequired()])
+    content = CKEditorField("記事", validators=[DataRequired()])
     submit = SubmitField("投稿")
 
 

@@ -78,7 +78,7 @@ def add_post():
         db.session.commit()
 
         flash("Blog Post Submitted Successfully!")
-        return redirect(url_for('post'))  # postページへ
+        return redirect(url_for('post', id=post.id))  # postページへ
 
     return render_template("add_post.html", form=form)
 
