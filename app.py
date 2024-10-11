@@ -346,7 +346,7 @@ def search():
                 Posts.content.like("%" + post.searched + "%"),
                 Posts.title.like("%" + post.searched + "%"),
                 Posts.slug.like("%" + post.searched + "%"),
-                Posts.poster_id.in_(Users.query.filter(Users.username.like("%" + post.searched + "%"))).with_entities(Users.id)
+                Posts.poster_id.in_(db.session.query(Users.id).filter(Users.username.like("%" + post.searched + "%")))
             )
         )
         posts = posts.order_by(Posts.title).all()
