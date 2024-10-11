@@ -1,34 +1,38 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-{% for message in get_flashed_messages() %}
+{% extends 'base.html' %} {% block content %} {% for message in
+get_flashed_messages() %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  {{ message }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
 </div>
 {% endfor%}
-<br>
+<br />
 <h1>Edit Post...</h1>
-<br>
+<br />
 <div class="shadow p-3 mb-5 bg-body rounded">
-    <form method="POST">
-        {{ form.hidden_tag() }}
-
-        {{ form.title.label(class="form-label") }}
-        {{ form.title(class="form-control") }}
-        <br>
-        {{ form.slug.label(class="form-label") }}
-        {{ form.slug(class="form-control") }}
-        <br>
-        {{ form.content.label(class="form-label") }}
-        {{ form.content(class="form-control", rows="10") }}
-        <br>
-        <a href="#" onclick="window.history.back(); return false;" class="btn btn-secondary"><< previous page</a>
-        {{ form.submit(class="btn btn-success") }}
-    </form>
-    {{ ckeditor.load(pkg_type="full-all") }}
-    {{ ckeditor.config(name='content') }}
+  <form method="POST">
+    {{ form.hidden_tag() }} {{ form.title.label(class="form-label") }} {{
+    form.title(class="form-control") }}
+    <br />
+    {{ form.keyword.label(class="form-label") }} {{
+    form.keyword(class="form-control") }}
+    <br />
+    {{ form.content.label(class="form-label") }} {{
+    form.content(class="form-control", rows="10") }}
+    <br />
+    <a
+      href="#"
+      onclick="window.history.back(); return false;"
+      class="btn btn-secondary"
+      ><< previous page</a
+    >
+    {{ form.submit(class="btn btn-success") }}
+  </form>
+  {{ ckeditor.load(pkg_type="full-all") }} {{ ckeditor.config(name='content') }}
 </div>
 
 {% endblock %}

@@ -56,12 +56,12 @@ def add_post():
             title=form.title.data,
             content=form.content.data,
             poster_id=poster,
-            slug=form.slug.data,
+            keyword=form.keyword.data,
         )
         form.title.data = ""
         form.content.data = ""
         # form.author.data = ''
-        form.slug.data = ""
+        form.keyword.data = ""
 
         # Add post data to database
         db.session.add(post)
@@ -239,7 +239,7 @@ def edit_post(id):
     if form.validate_on_submit():
         post.title = form.title.data
         # post.author = form.author.data
-        post.slug = form.slug.data
+        post.keyword = form.keyword.data
         post.content = form.content.data
         # Update Database
         db.session.add(post)
@@ -250,7 +250,7 @@ def edit_post(id):
     if current_user.id == post.poster_id or current_user.id == 3:
         form.title.data = post.title
         # form.author.data = post.author
-        form.slug.data = post.slug
+        form.keyword.data = post.keyword
         form.content.data = post.content
         return render_template("edit_post.html", form=form)
     else:
@@ -328,7 +328,7 @@ def post(id):
 
 @app.route("/posts")
 def posts():
-    posts = Posts.query.order_by(Posts.date_posted)
+    posts = Posts.query.order_by(Posts.date_posted.desc()).all()
     return render_template("posts.html", posts=posts)
 
 
@@ -345,8 +345,12 @@ def search():
             db.or_(
                 Posts.content.like("%" + post.searched + "%"),
                 Posts.title.like("%" + post.searched + "%"),
-                Posts.slug.like("%" + post.searched + "%"),
-                Posts.poster_id.in_(db.session.query(Users.id).filter(Users.username.like("%" + post.searched + "%")))
+                Posts.keyword.like("%" + post.searched + "%"),
+                Posts.poster_id.in_(
+                    db.session.query(Users.id).filter(
+                        Users.username.like("%" + post.searched + "%")
+                    )
+                ),
             )
         )
         posts = posts.order_by(Posts.title).all()
@@ -463,7 +467,7 @@ class Posts(db.Model):
     date_posted = db.Column(
         db.DateTime(timezone=True), default=lambda: datetime.now(japan_tz)
     )
-    slug = db.Column(db.String(255))
+    keyword = db.Column(db.String(255))
     # Foreign Key To Link Users (refer to primary key of the user)
     poster_id = db.Column(db.Integer, db.ForeignKey("users.id"))  # usersはDBのTable名
 
