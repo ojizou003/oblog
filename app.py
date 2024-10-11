@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
-from datetime import datetime, timezone, date
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -90,8 +90,16 @@ def add_user():
     name = None
     form = UserForm()
     if form.validate_on_submit():
-        user = Users.query.filter_by(email=form.email.data).first()
-        if user is None:
+        existing_user = Users.query.filter(
+            (Users.email == form.email.data) | (Users.username == form.username.data)
+        ).first()
+        
+        if existing_user:
+            if existing_user.email == form.email.data:
+                flash("このメールアドレスは既に登録されています。")
+            else:
+                flash("このユーザー名は既に使用されています。別のユーザー名で登録してください。")
+        else:
             # Hash the password
             hashed_pw = generate_password_hash(form.password_hash.data)
             user = Users(
@@ -103,13 +111,15 @@ def add_user():
             )
             db.session.add(user)
             db.session.commit()
-        name = form.name.data
-        form.name.data = ""
-        form.username.data = ""
-        form.email.data = ""
-        form.favorite_color.data = ""
-        form.password_hash.data = ""
-        flash("ユーザー登録完了!")
+            
+            name = form.name.data
+            form.name.data = ""
+            form.username.data = ""
+            form.email.data = ""
+            form.favorite_color.data = ""
+            form.password_hash.data = ""
+            flash("ユーザー登録完了!")
+
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
 
@@ -431,7 +441,7 @@ class Posts(db.Model):
 class Users(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(20), nullable=False, unique=False)
+    username = db.Column(db.String(20), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     favorite_color = db.Column(db.String(120))
