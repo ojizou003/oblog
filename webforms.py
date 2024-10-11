@@ -25,7 +25,7 @@ class PostForm(FlaskForm):
     content = CKEditorField('Content', validators=[DataRequired()])
     # author = StringField("Author")
     slug = StringField('Slug', validators=[DataRequired()])
-    submit = SubmitField('Post')
+    submit = SubmitField('Submit')
 
 class SearchForm(FlaskForm):
     searched = StringField("Searchd : ", validators=[DataRequired()])
