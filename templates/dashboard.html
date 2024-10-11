@@ -28,9 +28,8 @@
                         <strong>About Author : </strong>{{ current_user.about_author }} <br>
                         <!-- <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br> -->
                     </div>
-                    <br>
+                    <strong>Profile Pic : </strong>
                     <div class="col-md-4">
-                        <strong>Profile Pic : </strong>
                         {% if current_user.profile_pic %}
                         <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="center">
                         {% else %}
