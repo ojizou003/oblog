@@ -328,7 +328,7 @@ def post(id):
 
 @app.route("/posts")
 def posts():
-    posts = Posts.query.order_by(Posts.date_posted.desc()).all()
+    posts = Posts.query.order_by(Posts.date_posted.desc())
     return render_template("posts.html", posts=posts)
 
 
