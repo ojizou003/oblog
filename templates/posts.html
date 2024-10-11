@@ -25,8 +25,11 @@
                 <h2><a href="{{ url_for('post', id=post.id) }}" class="link-success link-underline-opacity-0">{{ post.title }}</h2></a>
                 <small>By: {{ post.poster.username }}</small><br>
                 {{ post.date_posted|format_date_second }} <br><br>
-                {{ post.content|striptags|truncate(150, True, "...") }}
-                <a href="{{ url_for('post', id=post.id) }}" class="link-underline-opacity-0">記事全文を読む</a>
+                {% set truncated_content = post.content|striptags|truncate(150, True, "... ") %}
+                {{ truncated_content }}
+                {% if truncated_content.endswith("... ") %}
+                    <a href="{{ url_for('post', id=post.id) }}" class="link-underline link-underline-opacity-0">記事全文を読む</a>
+                {% endif %}
                 <br><br>
                 <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">View Post</a>
                 {% if post.poster_id == current_user.id or current_user.id == 3 %}
