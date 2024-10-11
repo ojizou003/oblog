@@ -328,7 +328,7 @@ def post(id):
 
 @app.route("/posts")
 def posts():
-    posts = Posts.query.order_by(Posts.date_posted.desc())
+    posts = Posts.query.order_by(Posts.date_posted.desc()).all()
     return render_template("posts.html", posts=posts)
 
 
@@ -460,8 +460,8 @@ def format_date_second(value, format="%Y/%m/%d %H:%M:%S"):
 class Posts(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    content = db.Column(db.Text)
+    title = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.Text, nullable=False)
     # author = db.Column(db.String(255)) ...poster_idの導入により不要
     # date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     date_posted = db.Column(
