@@ -14,6 +14,7 @@ from flask_login import (
 
 import os
 import pytz
+import re
 
 from webforms import LoginForm, UserForm, PostForm, PasswordForm, NameForm, SearchForm
 from flask_ckeditor import CKEditor
@@ -455,6 +456,19 @@ def format_date_second(value, format="%Y/%m/%d %H:%M:%S"):
         return ""
     return value.strftime(format)
 
+# contet から最初の画像を特定する
+@app.template_filter('get_first_image')
+def get_first_image(html_content):
+    # HTMLからimg タグを検索
+    img_pattern = re.compile(r'<img[^>]+src=["\'](.*?)["\']', re.IGNORECASE)
+    match = img_pattern.search(html_content)
+    
+    if match:
+        # 最初の画像のURLを返す
+        return match.group(1)
+    else:
+        # 画像が見つからない場合はNoneを返す
+        return None
 
 # db.Model
 # Create a Blog Post Model
