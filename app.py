@@ -38,6 +38,13 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 ckeditor = CKEditor(app)
+app.config['CKEDITOR_CONFIG'] = {
+    'extraPlugins': 'image2',
+    'image2_alignClasses': ['image-left', 'image-center', 'image-right'],
+    'image2_disableResizer': True,
+    'removePlugins': 'image',
+    'contentsCss': ['static/css/style.css']
+}
 
 # Flask_Login Stuff
 login_manager = LoginManager()

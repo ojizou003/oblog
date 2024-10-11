@@ -3,8 +3,6 @@ from wtforms import (
     StringField,
     SubmitField,
     PasswordField,
-    BooleanField,
-    ValidationError,
     TextAreaField,
     FileField,
 )

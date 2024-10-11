@@ -30,3 +30,36 @@ body {
     top: 100vh;
     z-index: 1020;
 }
+
+.cke_editable img {
+    max-width: 100%;
+    height: auto;
+}
+
+.image-left {
+    float: left;
+    margin-right: 10px;
+}
+
+.image-center {
+    display: block;
+    margin: 0 auto;
+}
+
+.image-right {
+    float: right;
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .image-left, .image-right {
+        float: none;
+        display: block;
+        margin: 10px auto;
+    }
+}
+
+.post-content {
+    max-width: 100%;
+    overflow-x: hidden;
+}

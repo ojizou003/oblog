@@ -14,7 +14,9 @@
     <h2>{{ post.title }}</h2>
     <small>By : {{ post.poster.username }}</small><br>
     {{ post.date_posted }} <br><br>
-    {{ post.content|safe }} <br><br>
+    <div class="post-content">
+        {{ post.content|safe }} <br><br>
+    </div>
 
 <div class="card mb-2">
     <div class="row no-gutters">
