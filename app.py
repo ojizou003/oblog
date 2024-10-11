@@ -48,6 +48,8 @@ app.config['CKEDITOR_CONFIG'] = {
     'contentsCss': ['static/css/style.css']
 }
 
+app.config['WTF_CSRF_TIME_LIMIT'] = None  # トークンの有効期限を無制限にする
+
 # Flask_Login Stuff
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -298,7 +300,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("ログアウトしました。お立ち寄りいただきありがとうございます...")
+    flash("ログアウトしました... お立ち寄りいただきありがとうございました！")
     return redirect(url_for("login"))
 
 @app.route("/posts/<int:id>")
