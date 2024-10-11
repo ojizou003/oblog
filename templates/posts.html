@@ -28,7 +28,7 @@
                 {% set truncated_content = post.content|striptags|truncate(150, True, "... ") %}
                 {{ truncated_content }}
                 {% if truncated_content.endswith("... ") %}
-                    <a href="{{ url_for('post', id=post.id) }}" class="link-underline link-underline-opacity-0">記事全文を読む</a>
+                    <a href="{{ url_for('post', id=post.id) }}" class="link-underline link-underline-opacity-0 small">記事全文を読む</a>
                 {% endif %}
                 <br><br>
                 <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">View Post</a>
