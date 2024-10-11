@@ -34,6 +34,8 @@ body {
 .cke_editable img {
     max-width: 100%;
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .image-left {
@@ -57,9 +59,22 @@ body {
         display: block;
         margin: 10px auto;
     }
+    .post-content img {
+        max-width: 90%;
+    }
+    .cke_editable img {
+        max-width: 90%;
+    }
 }
 
 .post-content {
     max-width: 100%;
     overflow-x: hidden;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }

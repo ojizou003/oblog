@@ -43,6 +43,8 @@ app.config['CKEDITOR_CONFIG'] = {
     'image2_alignClasses': ['image-left', 'image-center', 'image-right'],
     'image2_disableResizer': True,
     'removePlugins': 'image',
+    'image2_prefillDimensions': False,
+    'image2_maxSize': {'width': 100, 'height': 100},
     'contentsCss': ['static/css/style.css']
 }
 
