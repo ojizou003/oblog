@@ -10,24 +10,14 @@
 {% endfor%}
     
 {% if name %}
-    <h2>Registration complete!</h2>
+    <h2>ユーザー登録完了!</h2>
     <br>
-    <p>Please Login...<p>
-    <a href="{{ url_for('login') }}", class="btn btn-success">Login</a>
+    <p>ログインしてください...<p>
+    <a href="{{ url_for('login') }}", class="btn btn-success">ログイン</a>
     <br><br><br>
 
-<!-- <table class="table table-hover table-bordered table-striped">
-{% for our_user in our_users %}
-    <tr>
-    <td>
-    {{ our_user.id }}. <a href="{{ url_for('update', id=our_user.id) }}">{{ our_user.name }}</a> - {{ our_user.email }} - {{ our_user.favorite_color }} - <a href="{{ url_for('delete', id=our_user.id) }}">Delete</a>
-    </td>
-    </tr>
-{% endfor %}
-</table> -->
-
 {% else %}
-    <h1>Register</h1>
+    <h1>ユーザー登録</h1>
     <br>
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
     <form method="POST">
@@ -56,16 +46,6 @@
     </div>
 
 <br>
-<!-- <table class="table table-hover table-bordered table-striped">
-{% for our_user in our_users %}
-    <tr>
-    <td>
-    {{ our_user.id }}. <a href="{{ url_for('update', id=our_user.id) }}">{{ our_user.name }}</a> - {{our_user.username}} - {{ our_user.email }} - {{ our_user.favorite_color }} - PW: {{ our_user.password_hash }} - <a href="{{ url_for('delete', id=our_user.id) }}">Delete</a>
-    </td>
-    </tr>
-{% endfor %}
-</table> -->
-
 
 {% endif %}
 

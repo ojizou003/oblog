@@ -107,7 +107,7 @@ def add_user():
         form.email.data = ""
         form.favorite_color.data = ""
         form.password_hash.data = ""
-        flash("User Added Successfully!")
+        flash("ユーザー登録完了!")
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
 
@@ -139,11 +139,11 @@ def admin():
             form.email.data = ""
             form.favorite_color.data = ""
             form.password_hash.data = ""
-            flash("User Added Successfully!")
+            flash("ユーザー登録完了!")
         our_users = Users.query.order_by(Users.date_added)
         return render_template("admin.html", form=form, name=name, our_users=our_users)
     else:
-        flash("Sorrt, You must be the Admin to access the Admin Page...")
+        flash("申し訳ありません。 管理者用の画面なので表示できません...")
         return redirect(url_for("dashboard"))
 
 
@@ -174,18 +174,18 @@ def dashboard():
             try:
                 db.session.commit()
                 saver.save(os.path.join(app.config["UPLOAD_FOLDER"], pic_name))
-                flash("User Updated Successfully!")
+                flash("登録完了!")
                 return render_template(
                     "dashboard.html", form=form, name_to_update=name_to_update
                 )
             except:
-                flash("Error! Looks like there was a problem...try again!")
+                flash("エラー! 問題が発生しました...")
                 return render_template(
                     "dashboard.html", form=form, name_to_update=name_to_update
                 )
         else:
             db.session.commit()
-            flash("User Updated Successfully!")
+            flash("登録完了!")
             return render_template(
                 "dashboard.html", form=form, name_to_update=name_to_update
             )
@@ -286,20 +286,19 @@ def login():
             # Check the hash
             if check_password_hash(user.password_hash, form.password.data):
                 login_user(user)
-                flash("Login Successfully!")
+                flash("ログイン成功!")
                 return redirect(url_for("dashboard"))
             else:
-                flash("Wrong Password - Try Again!")
+                flash("パスワードが間違っています...")
         else:
-            flash("That User Dosen't Exist! Try Again...")
+            flash("ユーザーが登録されていません...")
     return render_template("login.html", form=form)
-
 
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
     logout_user()
-    flash("You Have Been Logged Out! Thanks For Stopping By...")
+    flash("ログアウトしました。お立ち寄りいただきありがとうございます...")
     return redirect(url_for("login"))
 
 @app.route("/posts/<int:id>")
@@ -307,12 +306,10 @@ def post(id):
     post = Posts.query.get_or_404(id)
     return render_template("post.html", post=post)
 
-
 @app.route("/posts")
 def posts():
     posts = Posts.query.order_by(Posts.date_posted.desc()).all()
     return render_template("posts.html", posts=posts)
-
 
 @app.route("/search", methods=["POST"])
 def search():

@@ -9,7 +9,7 @@
 </div>
 {% endfor%}
     
-<h1>Login!</h1>
+<h1>ログイン!</h1>
 <br>
 
 <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -26,5 +26,7 @@
         {{ form.submit(class="btn btn-success") }}
     </form>
 </div>
+<br>
+<p>ユーザー登録は<a href="{{ url_for('add_user') }}">こちら</a>から...</p>
 
 {% endblock %}
