@@ -43,7 +43,7 @@ class UserForm(FlaskForm):
         ],
     )
     password_hash2 = PasswordField("パスワード(確認用) : ", validators=[DataRequired()])
-    profile_pic = FileField("プロフ画像 : ")
+    profile_pic = FileField("プロフィール画像 : ")
     submit = SubmitField("送信")
     update = SubmitField("更新")
     register = SubmitField("登録")

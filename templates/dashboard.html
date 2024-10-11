@@ -9,7 +9,7 @@
 </div>
 {% endfor%}
     
-<h2>Dashboard</h2>
+<h2>ダッシュボード</h2>
 <br>
 <div class="card">
     <div class="card-header">
@@ -20,15 +20,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
-                        <strong>Username : </strong>{{ current_user.username }} <br>
-                        <strong>User Id : </strong>{{ current_user.id }} <br>
-                        <strong>Email : </strong>{{ current_user.email }} <br>
-                        <strong>Favorite Color : </strong>{{ current_user.favorite_color }} <br>
-                        <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
-                        <strong>About Author : </strong>{{ current_user.about_author }} <br>
+                        <strong>ユーザー名 : </strong>{{ current_user.username }} <br>
+                        <strong>ユーザー ID : </strong>{{ current_user.id }} <br>
+                        <strong>Ｅメール : </strong>{{ current_user.email }} <br>
+                        <strong>好きな色 : </strong>{{ current_user.favorite_color }} <br>
+                        <strong>登録日 : </strong>{{ current_user.date_added|format_date }} <br>
+                        <strong>著者から一言 : </strong>{{ current_user.about_author }} <br>
                         <!-- <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br> -->
                     </div>
-                    <strong>Profile Pic : </strong>
+                    <strong>プロフィール画像 : </strong>
                     <div class="col-md-4">
                         {% if current_user.profile_pic %}
                         <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="center">
@@ -39,16 +39,16 @@
                 </div>
             </div>
         </p>
-        <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
-        <a href="{{ url_for('add_post') }}" class="btn btn-outline-success btn-sm">Create Post</a>
-        <a href="{{ url_for('posts', id=current_user.id) }}" class="btn btn-outline-primary btn-sm">All Posts</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">ログアウト</a>
+        <a href="{{ url_for('add_post') }}" class="btn btn-outline-success btn-sm">記事作成</a>
+        <a href="{{ url_for('posts', id=current_user.id) }}" class="btn btn-outline-primary btn-sm">記事一覧</a>
         <br><br>
     </div>
 </div>
 <br>
 <div class="card">
     <div class="card-header">
-        <strong>Update Profile</strong> <br>
+        <strong>プロフィール更新</strong> <br>
     </div>
     <div class="card-body">
         <p class="card-text">
