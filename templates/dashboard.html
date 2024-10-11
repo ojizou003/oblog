@@ -28,7 +28,7 @@
                         <!-- <strong>Profile Pic : </strong>{{ current_user.profile_pic }} <br> -->
                         <strong>Date Joined : </strong>{{ current_user.date_added|format_date }} <br>
                     </div>
-                    <div class="col-mde-4">
+                    <div class="col-md-4">
                         <strong align="center">Profile Pic</strong>
                         {% if current_user.profile_pic %}
                         <img src="{{ url_for('static', filename='img/' + current_user.profile_pic) }}" alt="profile_pic" width="120" align="center">
