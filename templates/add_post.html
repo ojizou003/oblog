@@ -14,14 +14,16 @@ get_flashed_messages() %}
 <br />
 <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
   <form method="POST">
-    {{ form.hidden_tag() }} {{ form.title.label(class="form-label") }} {{
-    form.title(class="form-control") }}
+    {{ form.hidden_tag() }}
+
+    {{ form.title.label(class="form-label") }} 
+    {{ form.title(class="form-control") }}
     <br />
-    {{ form.keyword.label(class="form-label") }} {{
-    form.keyword(class="form-control") }}
+    {{ form.keyword.label(class="form-label") }} 
+    {{ form.keyword(class="form-control") }}
     <br />
-    {{ form.content.label(class="form-label") }} {{
-    form.content(class="form-control", rows="10") }}
+    {{ form.content.label(class="form-label") }} 
+    {{ form.content(class="form-control", rows="10") }}
     <br />
     <a
       href="#"

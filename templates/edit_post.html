@@ -11,24 +11,25 @@ get_flashed_messages() %}
 </div>
 {% endfor%}
 <br />
-<h1>Edit Post...</h1>
+<h1>記事編集</h1>
 <br />
 <div class="shadow p-3 mb-5 bg-body rounded">
   <form method="POST">
-    {{ form.hidden_tag() }} {{ form.title.label(class="form-label") }} {{
-    form.title(class="form-control") }}
+    {{ form.hidden_tag() }} 
+    {{ form.title.label(class="form-label") }} 
+    {{ form.title(class="form-control") }}
     <br />
-    {{ form.keyword.label(class="form-label") }} {{
-    form.keyword(class="form-control") }}
+    {{ form.keyword.label(class="form-label") }} 
+    {{ form.keyword(class="form-control") }}
     <br />
-    {{ form.content.label(class="form-label") }} {{
-    form.content(class="form-control", rows="10") }}
+    {{ form.content.label(class="form-label") }} 
+    {{ form.content(class="form-control", rows="10") }}
     <br />
     <a
       href="#"
       onclick="window.history.back(); return false;"
       class="btn btn-secondary"
-      ><< previous page</a
+      ><< 戻る</a
     >
     {{ form.submit(class="btn btn-success") }}
   </form>
