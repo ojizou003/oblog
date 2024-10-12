@@ -10,7 +10,7 @@ get_flashed_messages() %}
   ></button>
 </div>
 {% endfor%} {% if current_user.is_authenticated %}
-<h1>New Post</h1>
+<h1>記事作成</h1>
 <br />
 <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
   <form method="POST">
@@ -27,16 +27,16 @@ get_flashed_messages() %}
       href="#"
       onclick="window.history.back(); return false;"
       class="btn btn-secondary"
-      ><< previous page</a
+      ><< 戻る</a
     >
     {{ form.submit(class="btn btn-success") }}
   </form>
   {{ ckeditor.load(pkg_type="full-all") }} {{ ckeditor.config(name='content') }}
 </div>
 {% else %}
-<h1>Must Be Logged In...</h1>
+<h1>ログインしていません！</h1>
 <br />
-<p>Sorry, You must be logged in to access this page!</p>
+<p>このページへアクセスするにはログインする必要があります</p>
 <br />
 <a href="{{ url_for('login') }}" class="btn btn-success">Login Here</a>
 
