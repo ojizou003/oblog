@@ -10,10 +10,10 @@
 {% endfor %}
 
 {% if id==current_user.id %}
-    <h1>Update Profile</h1>
+    <h1>プロフィール更新</h1>
     <br>
-    ID To Update: {{ id }} <br>
-    Current Id: {{ current_user.id }}
+    更新するID: {{ id }} <br>
+    あなたのID: {{ current_user.id }}
     <br><br>
     <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
         <form action="/update/{{ name_to_update.id }}" method="POST">
@@ -32,18 +32,18 @@
             <br>
             <br>
             {{ form.update(class="btn btn-success") }}
-            <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger">Delete</a>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Dashboard</a>
+            <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger">削除</a>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">ダッシュボード</a>
         </form>
     </div>
     <br><br><br>
 {% else %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Sorry! You Can't Edit This User...
+        申し訳ありません! あなたはこのユーザーのプロフィールを更新できません...
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <h2>Access Denied!</h2>
-    <p>Sorry, you cannot access this user profile...</p>
+    <h2>アクセスが拒否されました!</h2>
+    <p>申し訳ありません, あなたはこのユーザーのプロフィールにアクセスできません...</p>
 {% endif %}
 
 {% endblock %}

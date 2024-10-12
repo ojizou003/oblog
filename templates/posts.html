@@ -31,10 +31,10 @@
                     <a href="{{ url_for('post', id=post.id) }}" class="link-underline link-underline-opacity-0 small">記事全文を読む</a>
                 {% endif %}
                 <br><br>
-                <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">View Post</a>
+                <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">読む</a>
                 {% if post.poster_id == current_user.id or current_user.id == 3 %}
-                <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-success btn-sm">Edit Post</a>
-                <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">Delete Post</a>
+                <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-success btn-sm">編集</a>
+                <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">削除</a>
                 {% endif %}
             </div>
         </div>

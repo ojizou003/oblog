@@ -80,7 +80,7 @@ def add_post():
         db.session.add(post)
         db.session.commit()
 
-        flash("Blog Post Submitted Successfully!")
+        flash("記事が投稿されました!")
         return redirect(url_for('post', id=post.id))  # postページへ
 
     return render_template("add_post.html", form=form)
@@ -119,7 +119,7 @@ def add_user():
             form.email.data = ""
             form.favorite_color.data = ""
             form.password_hash.data = ""
-            flash("ユーザー情報が正常に登録されました!")
+            flash("ユーザー情報が登録されました!")
 
     our_users = Users.query.order_by(Users.date_added)
     return render_template("add_user.html", form=form, name=name, our_users=our_users)
@@ -162,13 +162,13 @@ def admin():
                     form.email.data = ""
                     form.favorite_color.data = ""
                     form.password_hash.data = ""
-                    flash("ユーザー情報が正常に登録されました!")
+                    flash("ユーザー情報が更新されました!")
                 except IntegrityError:
                     db.session.rollback()
-                    flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+                    flash("エラー! データベースの制約違反が発生しました。もう一度お試しください。")
                 except Exception as e:
                     db.session.rollback()
-                    flash(f"エラー! 問題が発生しました: {str(e)}")
+                    flash(f"エラー! 問題が発生しました...: {str(e)}")
 
         our_users = Users.query.order_by(Users.date_added)
         return render_template("admin.html", form=form, name=name, our_users=our_users)
@@ -220,13 +220,13 @@ def dashboard():
             db.session.commit()
             if request.files["profile_pic"]:
                 saver.save(os.path.join(app.config["UPLOAD_FOLDER"], pic_name))
-            flash("ユーザー情報が正常に登録されました!")
+            flash("ユーザー情報が更新されました!")
         except IntegrityError:
             db.session.rollback()
-            flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+            flash("エラー! データベースの制約違反が発生しました。もう一度お試しください。")
         except Exception as e:
             db.session.rollback()
-            flash(f"エラー! 問題が発生しました: {str(e)}")
+            flash(f"エラー! 問題が発生しました...: {str(e)}")
 
         return render_template(
             "dashboard.html", form=form, name_to_update=name_to_update
@@ -246,18 +246,18 @@ def delete(id):
         try:
             db.session.delete(user_to_delete)
             db.session.commit()
-            flash("User Deleted Successfully!")
+            flash("ユーザーを削除しました!")
             our_users = Users.query.order_by(Users.date_added)
             return render_template(
                 "add_user.html", form=form, name=name, our_users=our_users
             )
         except:
-            flash("Whoops! There was a problem deleting user, try again...")
+            flash("ユーザー削除処理中に問題発生! もう一度お試しください...")
             return render_template(
                 "add_user.html", form=form, name=name, our_users=our_users
             )
     else:
-        flash("Sorry, you can't delete that user!")
+        flash("あなたはこのユーザーを削除する権限がありません!")
         return redirect(url_for("dashboard"))
 
 @app.route("/posts/delete/<int:id>")
@@ -269,15 +269,16 @@ def delete_post(id):
         try:
             db.session.delete(post_to_delete)
             db.session.commit()
-            flash("Post was Deleted!")
+            flash("記事は削除されました!")
             posts = Posts.query.order_by(Posts.date_posted)
-            return render_template("posts.html", posts=posts)
+            # return render_template("posts.html", posts=posts)
+            return redirect(url_for('dashboard'))
         except:
-            flash("There was a problem deleting post, Try again...")
+            flash("ユーザー削除処理中に問題発生! もう一度お試しください...")
             posts = Posts.query.order_by(Posts.date_posted)
             return render_template("posts.html", posts=posts)
     else:
-        flash("You Aren't Authorized To Delete this Post!")
+        flash("あなたはこの記事を削除する権限がありません!")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template("posts.html", posts=posts)
 
@@ -295,7 +296,7 @@ def edit_post(id):
         # Update Database
         db.session.add(post)
         db.session.commit()
-        flash("Post Has Been Updated!")
+        flash("記事は更新されました!")
         return redirect(url_for("post", id=post.id))
 
     if current_user.id == post.poster_id or current_user.id == 3:
@@ -305,7 +306,7 @@ def edit_post(id):
         form.content.data = post.content
         return render_template("edit_post.html", form=form)
     else:
-        flash("You Arn't Authorized To Edit This Post!")
+        flash("あなたはこの記事を編集する権限がありません!")
         post = Posts.query.get_or_404(id)
         return render_template("post.html", post=post)
 
@@ -326,7 +327,7 @@ def login():
             # Check the hash
             if check_password_hash(user.password_hash, form.password.data):
                 login_user(user)
-                flash("ログイン成功!")
+                flash("ログインに成功しました!")
                 return redirect(url_for("dashboard"))
             else:
                 flash("パスワードが間違っています...")
@@ -405,13 +406,13 @@ def update(id):
 
         try:
             db.session.commit()
-            flash("ユーザー情報が正常に更新されました!")
+            flash("ユーザー情報が更新されました!")
         except IntegrityError:
             db.session.rollback()
-            flash("エラー! データベースの制約違反が発生しました。再度お試しください。")
+            flash("エラー! データベースの制約違反が発生しました。もう一度お試しください。")
         except Exception as e:
             db.session.rollback()
-            flash(f"エラー! 問題が発生しました: {str(e)}")
+            flash(f"エラー! 問題が発生しました...: {str(e)}")
 
         return render_template(
             "update.html", form=form, name_to_update=name_to_update
