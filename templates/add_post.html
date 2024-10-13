@@ -37,12 +37,11 @@ get_flashed_messages() %}
 </div>
 {% else %}
 <h1>ログインしていません！</h1>
-<br />
+<br>
 <p>記事作成ページへアクセスするにはログインする必要があります。</p>
-<br />
-<a href="{{ url_for('login') }}" class="btn btn-success">Login Here</a>
 <p>ログインは<a href="{{ url_for('login') }}">こちら</a>から...</p>
-<br><br>
-<p>ユーザー登録は<a href="{{ url_for('add_user') }}">こちら</a>から...</p>
+<br>
+<p small>【 初めて利用される方へ 】</p>
+<p>ユーザー登録は<a href="{{ url_for('add_user') }}">こちら</a>からです。</p>
 
 {% endif %} {% endblock %}
