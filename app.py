@@ -373,7 +373,7 @@ def search():
                 ),
             )
         )
-        posts = posts.order_by(Posts.title).all()
+        posts = posts.order_by(Posts.date_posted.desc()).all()
         return render_template(
             "search.html", form=form, searched=post.searched, posts=posts
         )
