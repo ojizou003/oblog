@@ -40,7 +40,7 @@ body {
 
 .image-left {
     float: left;
-    margin-right: 10px;
+    margin: 10px 20px 10px 0; /* 右側のマージンを増やし、上下にもマージンを追加 */
 }
 
 .image-center {
@@ -50,7 +50,7 @@ body {
 
 .image-right {
     float: right;
-    margin-left: 10px;
+    margin: 10px 0 10px 20px; /* 左側のマージンを増やし、上下にもマージンを追加 */
 }
 
 @media (max-width: 768px) {
@@ -65,13 +65,14 @@ body {
         max-width: 100%;
         height: auto;
         object-fit: contain;
-        margin: 0;
+        margin: 10px auto; /* 上下のマージンを10pxに設定 */
     }
 }
 
 .post-content {
     max-width: 100%;
     overflow-x: hidden;
+    line-height: 1.6; /* 読みやすさを向上させるために行間を追加 */
 }
 
 .post-content img {
@@ -87,4 +88,11 @@ body {
     padding-right: 10rem !important;
     padding-top: 7rem !important;
     }
+}
+
+/* 画像の周りのテキストの間隔を調整するためのクラス */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
 }
