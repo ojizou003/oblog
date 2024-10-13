@@ -58,12 +58,13 @@ body {
         float: none;
         display: block;
         margin: 10px auto;
+        max-width: 100%;
+        height: auto;
     }
-    .post-content img {
-        max-width: 90%;
-    }
-    .cke_editable img {
-        max-width: 90%;
+    .post-content img, .cke_editable img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
     }
 }
 
