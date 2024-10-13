@@ -83,5 +83,6 @@ body {
     .custom-padding-md-15 {
     padding-left: 15rem !important;
     padding-right: 15rem !important;
+    padding-top: 7rem !important;
     }
 }
