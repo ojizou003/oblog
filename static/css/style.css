@@ -78,3 +78,10 @@ body {
     display: block;
     margin: 0 auto;
 }
+
+@media (min-width: 768px) {
+    .custom-padding-md-15 {
+    padding-left: 15rem !important;
+    padding-right: 15rem !important;
+    }
+}
