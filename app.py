@@ -352,6 +352,10 @@ def posts():
     posts = Posts.query.order_by(Posts.date_posted.desc()).all()
     return render_template("posts.html", posts=posts)
 
+@app.route("/privacypolicy")
+def privacypolicy():
+    return render_template("privacypolicy.html")
+
 @app.route("/search", methods=["POST"])
 def search():
     form = SearchForm()
@@ -430,17 +434,14 @@ def base():
     form = SearchForm()
     return dict(form=form)
 
-
 # Error Handling
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
 
-
 @app.errorhandler(500)
 def page_not_found(e):
     return render_template("500.html"), 500
-
 
 # 日付フォーマット
 @app.template_filter("format_date")
@@ -448,7 +449,6 @@ def format_date(value, format="%Y/%m/%d"):
     if value is None:
         return ""
     return value.strftime(format)
-
 
 @app.template_filter("format_date_second")
 def format_date_second(value, format="%Y/%m/%d %H:%M:%S"):
@@ -469,6 +469,7 @@ def get_first_image(html_content):
     else:
         # 画像が見つからない場合はNoneを返す
         return None
+
 
 # db.Model
 # Create a Blog Post Model

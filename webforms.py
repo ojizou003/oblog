@@ -7,7 +7,6 @@ from wtforms import (
     FileField,
 )
 from wtforms.validators import DataRequired, EqualTo, Length
-from wtforms.widgets import TextArea
 from flask_ckeditor import CKEditorField
 
 
