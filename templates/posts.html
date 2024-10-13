@@ -16,7 +16,9 @@
         <div class="row">
             {% if post.content|get_first_image %}
             <div class="col-md-3">
-                <img href="{{ url_for('post', id=post.id) }}" src="{{ post.content|get_first_image }}" class="img-fluid rounded float-start" alt="Thumbnail" style="max-width: 300px; max-height: 300px; object-fit: cover;">
+                <a href="{{ url_for('post', id=post.id) }}" >
+                    <img src="{{ post.content|get_first_image }}" class="img-fluid rounded float-start" alt="Thumbnail" style="max-width: 300px; max-height: 300px; object-fit: cover;">
+                </a>
             </div>
             <div class="col-md-9">
             {% else %}
