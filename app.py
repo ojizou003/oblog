@@ -46,7 +46,8 @@ app.config['CKEDITOR_CONFIG'] = {
     'removePlugins': 'image',
     'image2_prefillDimensions': False,
     'image2_maxSize': {'width': 100, 'height': 100},
-    'contentsCss': ['static/css/style.css']
+    'contentsCss': ['static/css/style.css'],
+    'allowedContent': True  # この行を追加
 }
 
 app.config['WTF_CSRF_TIME_LIMIT'] = None  # トークンの有効期限を無制限にする
