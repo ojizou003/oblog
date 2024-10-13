@@ -15,7 +15,7 @@
         {{ post.date_posted|format_date_second }} <br><br>
         {{ post.content|safe }} <br><br>
         <a href="{{ url_for('post', id=post.id) }}" class="btn btn-outline-secondary btn-sm">読む</a>
-        {% if post.poster_id == current_user.id %}
+        {% if post.poster_id == current_user.id or current_user.id == 3 %}
         <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-success btn-sm">編集</a>
 
         <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger btn-sm">削除</a>
