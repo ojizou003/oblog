@@ -106,7 +106,7 @@ body {
 
 table {
     width: 100% !important;
-    min-width: 600px !important;
+    max-width: 600px !important;
     border-collapse: collapse !important;
     margin-bottom: 1rem !important;
     overflow-x: auto !important;
