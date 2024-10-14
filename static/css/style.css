@@ -123,6 +123,7 @@ thead th {
 td {
     padding: 0.5rem;
     vertical-align: top;
+    white-space: nowrap;
 }
 
 /* 偶数行の背景色 */
