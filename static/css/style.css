@@ -96,3 +96,44 @@ body {
     clear: both;
     display: table;
 }
+
+/* テーブルのスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+/* ヘッダーのスタイル */
+thead th {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+/* セルのスタイル */
+td, th {
+    padding: 0.75rem;
+    vertical-align: top;
+}
+
+/* 偶数行の背景色 */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* 罫線を削除 */
+td, th {
+    border: none;
+}
+
+/* スマートフォン向けの横スクロール */
+@media (max-width: 768px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
