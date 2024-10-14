@@ -99,13 +99,13 @@ body {
 
 /* テーブルのスタイル */
 .table-responsive {
-    width: 100% !important;
+    width: auto !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
 }
 
 table {
-    width: 100% !important;
+    width: auto !important;
     border-collapse: collapse !important;
     margin-bottom: 1rem !important;
 }
