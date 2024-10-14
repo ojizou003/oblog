@@ -99,14 +99,14 @@ body {
 
 /* テーブルのスタイル */
 .table-responsive {
-    width: 100% !important;
-    overflow-x: auto !important;
+    /* width: 100% !important; */
+    /* overflow-x: auto !important; */
     -webkit-overflow-scrolling: touch !important;
 }
 
 table {
-    width: 100% !important;
-    min-width: 600px !important; /* テーブルの最小幅を設定 */
+    /* width: 100% !important; */
+    /* min-width: 600px !important; */
     border-collapse: collapse !important;
     margin-bottom: 1rem !important;
     overflow-x: auto !important;
@@ -117,13 +117,14 @@ table {
 thead th {
     background-color: #f8f9fa;
     border-bottom: 1px solid #023509;
+    text-align: center;
     padding: 0.75rem;
     text-align: left;
 }
 
 /* セルのスタイル */
 td, th {
-    padding: 0.75rem;
+    padding: 0.5rem;
     vertical-align: top;
 }
 
@@ -141,7 +142,7 @@ td, th {
 @media (max-width: 768px) {
     .table-responsive {
         display: block !important;
-        width: 100% !important;
+        /* width: 100% !important; */
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
     }
