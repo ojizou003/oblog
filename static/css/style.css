@@ -106,6 +106,7 @@ body {
 
 table {
     width: 100% !important;
+    min-width: 600px !important; /* テーブルの最小幅を設定 */
     border-collapse: collapse !important;
     margin-bottom: 1rem !important;
     overflow-x: auto !important;
