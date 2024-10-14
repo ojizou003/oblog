@@ -106,24 +106,21 @@ body {
 
 table {
     width: 100% !important;
-    max-width: 600px !important;
     border-collapse: collapse !important;
     margin-bottom: 1rem !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
 }
 
 /* ヘッダーのスタイル */
 thead th {
     background-color: #f8f9fa;
-    border-bottom: 1px solid #023509;
-    text-align: center !important;
-    padding: 0.75rem;
-    text-align: left;
+    border-bottom: 1px solid #023509 !important;
+    text-align: center;
+    padding: 0.5rem;
+    white-space: nowrap;
 }
 
 /* セルのスタイル */
-td, th {
+td {
     padding: 0.5rem;
     vertical-align: top;
 }
@@ -142,8 +139,5 @@ td, th {
 @media (max-width: 768px) {
     .table-responsive {
         display: block !important;
-        width: 100% !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
     }
 }
