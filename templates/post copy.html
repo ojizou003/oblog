@@ -1,17 +1,5 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ post.title }} - Oblog{% endblock %}
-
-{% block og_title %}{{ post.title }}{% endblock %}
-{% block og_description %}{{ post.content|striptags|truncate(200, True, "...") }}{% endblock %}
-{% block og_image %}
-    {% if post.content|get_first_image %}
-        {{ post.content|get_first_image|replace('src="', 'src="' + request.url_root) }}
-    {% else %}
-        {{ super() }}
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
 {% for message in get_flashed_messages() %}

@@ -465,10 +465,8 @@ def get_first_image(html_content):
     match = img_pattern.search(html_content)
     
     if match:
-        image_url = match.group(1)
-        if not image_url.startswith(('http://', 'https://')):
-            image_url = request.url_root.rstrip('/') + image_url
-        return image_url
+        # 最初の画像のURLを返す
+        return match.group(1)
     else:
         # 画像が見つからない場合はNoneを返す
         return None
