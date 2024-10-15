@@ -29,6 +29,7 @@ japan_tz = pytz.timezone("Asia/Tokyo")
 
 # Create a Flask Instance
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'https://ojizou00301.pythonanywhere.com'  # あなたのドメインに置き換えてください
 app.config.from_object(Config)
 app.config["SQLALCHEMY_DATABASE_URI"] = Config.get_database_url()
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 280}
