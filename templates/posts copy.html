@@ -1,11 +1,5 @@
 {% extends 'base.html' %}
 
-{% block title %}記事一覧 - Oblog{% endblock %}
-
-{% block og_title %}Oblog - 記事一覧{% endblock %}
-{% block og_description %}Oblogの最新記事一覧をご覧ください。{% endblock %}
-{% block og_image %}{{ url_for('static', filename='img/default_og_image.png', _external=True) }}{% endblock %}
-
 {% block content %}
 
 {% for message in get_flashed_messages() %}
